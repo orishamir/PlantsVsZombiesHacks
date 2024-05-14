@@ -17,12 +17,11 @@ namespace PlantsVsZombiesHacks
             program.Start().Wait();
         }
 
-
         CheatClass cheats = new CheatClass();
         int sunsCountValue;
 
-        bool freePlants = false;
-        bool instantRecharge = false;
+        bool freePlantsEnabled = false;
+        bool instantRechargeEnabled = false;
         
         protected override void Render()
         {
@@ -30,12 +29,12 @@ namespace PlantsVsZombiesHacks
             ImGui.SetWindowSize(new Vector2(520, 280));
             
             ImGui.SetWindowFontScale((float)1.8);
-            if (ImGui.Checkbox("Free plants!", ref freePlants))
+            if (ImGui.Checkbox("Free plants!", ref freePlantsEnabled))
             {
                 freePlantsChanged();
             }
 
-            if (ImGui.Checkbox("Instant Recharge!", ref instantRecharge))
+            if (ImGui.Checkbox("Instant Recharge!", ref instantRechargeEnabled))
             {
                 instantRechargeChanged();
             }
@@ -51,18 +50,18 @@ namespace PlantsVsZombiesHacks
 
         private void freePlantsChanged()
         {
-            if (freePlants)
-                this.cheats.freePlantsCheat.SetFreePlants();
+            if (freePlantsEnabled)
+                this.cheats.freePlantsCheat.Activate();
             else
-                this.cheats.freePlantsCheat.RemoveFreePlants();
+                this.cheats.freePlantsCheat.Deactivate();
         }
 
         private void instantRechargeChanged()
         {
-            if (instantRecharge)
-                this.cheats.instantRechargeCheat.SetInstantRecharge();
+            if (instantRechargeEnabled)
+                this.cheats.instantRechargeCheat.Activate();
             else
-                this.cheats.instantRechargeCheat.RemoveInstantRecharge();
+                this.cheats.instantRechargeCheat.Deactivate();
         }
     }
 }

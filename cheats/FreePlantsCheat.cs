@@ -5,7 +5,7 @@
 
 namespace PlantsVsZombiesHacks.cheats;
 
-public class FreePlantsCheat
+public class FreePlantsCheat: ICheat
 {
     private const int FreePlantsAddr = 0x1F634;
 
@@ -18,7 +18,7 @@ public class FreePlantsCheat
         this.moduleBase = moduleBase;
     }
 
-    public void SetFreePlants()
+    public void Activate()
     {
         swed.WriteBytes(moduleBase, FreePlantsAddr, new byte[]
         {
@@ -26,7 +26,7 @@ public class FreePlantsCheat
         });
     }
 
-    public void RemoveFreePlants()
+    public void Deactivate()
     {
         swed.WriteBytes(moduleBase, FreePlantsAddr, new byte[]
         {

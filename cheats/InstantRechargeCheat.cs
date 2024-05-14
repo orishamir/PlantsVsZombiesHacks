@@ -5,9 +5,10 @@
 
 namespace PlantsVsZombiesHacks.cheats;
 
-public class InstantRechargeCheat
+public class InstantRechargeCheat : ICheat
 {
     private const int InstantRechargeAddr = 0x958BC;
+
     private readonly Swed swed;
     private IntPtr moduleBase;
 
@@ -17,7 +18,7 @@ public class InstantRechargeCheat
         this.moduleBase = moduleBase;
     }
 
-    public void SetInstantRecharge()
+    public void Activate()
     {
         swed.WriteBytes(moduleBase, InstantRechargeAddr, new byte[]
         {
@@ -27,7 +28,7 @@ public class InstantRechargeCheat
         });
     }
 
-    public void RemoveInstantRecharge()
+    public void Deactivate()
     {
         swed.WriteBytes(moduleBase, InstantRechargeAddr, new byte[]
         {
