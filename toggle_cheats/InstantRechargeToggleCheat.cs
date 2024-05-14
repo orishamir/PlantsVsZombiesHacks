@@ -3,16 +3,16 @@
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InconsistentNaming
 
-namespace PlantsVsZombiesHacks.cheats;
+namespace PlantsVsZombiesHacks.toggle_cheats;
 
-public class InstantRechargeCheat : ICheat
+public class InstantRechargeToggleCheat : IToggleCheat
 {
     private const int InstantRechargeAddr = 0x958BC;
 
     private readonly Swed swed;
     private IntPtr moduleBase;
 
-    public InstantRechargeCheat(Swed swed, IntPtr moduleBase)
+    public InstantRechargeToggleCheat(Swed swed, IntPtr moduleBase)
     {
         this.swed = swed;
         this.moduleBase = moduleBase;

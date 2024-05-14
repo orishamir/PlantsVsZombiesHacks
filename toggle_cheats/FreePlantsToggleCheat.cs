@@ -3,16 +3,16 @@
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InconsistentNaming
 
-namespace PlantsVsZombiesHacks.cheats;
+namespace PlantsVsZombiesHacks.toggle_cheats;
 
-public class FreePlantsCheat: ICheat
+public class FreePlantsToggleCheat: IToggleCheat
 {
     private const int FreePlantsAddr = 0x1F634;
 
     private readonly Swed swed;
     private IntPtr moduleBase;
 
-    public FreePlantsCheat(Swed swed, IntPtr moduleBase)
+    public FreePlantsToggleCheat(Swed swed, IntPtr moduleBase)
     {
         this.swed = swed;
         this.moduleBase = moduleBase;

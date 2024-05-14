@@ -1,4 +1,4 @@
-﻿using PlantsVsZombiesHacks.cheats;
+﻿using PlantsVsZombiesHacks.toggle_cheats;
 using Swed64;
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
@@ -11,8 +11,8 @@ public class CheatClass
     IntPtr moduleBase;
 
     public readonly SunsCheat suns;
-    public readonly FreePlantsCheat freePlantsCheat;
-    public readonly InstantRechargeCheat instantRechargeCheat;
+    public readonly FreePlantsToggleCheat FreePlantsToggleCheat;
+    public readonly InstantRechargeToggleCheat InstantRechargeToggleCheat;
 
     public CheatClass()
     {
@@ -20,13 +20,12 @@ public class CheatClass
 
         // Init cheats
         this.suns = new SunsCheat(swed, moduleBase);
-        this.freePlantsCheat = new FreePlantsCheat(swed, moduleBase);
-        this.instantRechargeCheat = new InstantRechargeCheat(swed, moduleBase);
+        this.FreePlantsToggleCheat = new FreePlantsToggleCheat(swed, moduleBase);
+        this.InstantRechargeToggleCheat = new InstantRechargeToggleCheat(swed, moduleBase);
     }
 
     private void InitMemory()
     {
         moduleBase = swed.GetModuleBase(".exe");
     }
-
 }

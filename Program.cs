@@ -51,17 +51,17 @@ namespace PlantsVsZombiesHacks
         private void freePlantsChanged()
         {
             if (freePlantsEnabled)
-                this.cheats.freePlantsCheat.Activate();
+                this.cheats.FreePlantsToggleCheat.Activate();
             else
-                this.cheats.freePlantsCheat.Deactivate();
+                this.cheats.FreePlantsToggleCheat.Deactivate();
         }
 
         private void instantRechargeChanged()
         {
             if (instantRechargeEnabled)
-                this.cheats.instantRechargeCheat.Activate();
+                this.cheats.InstantRechargeToggleCheat.Activate();
             else
-                this.cheats.instantRechargeCheat.Deactivate();
+                this.cheats.InstantRechargeToggleCheat.Deactivate();
         }
     }
 }
