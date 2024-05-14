@@ -2,7 +2,7 @@
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InconsistentNaming
-namespace PlantsVsZombiesHacks.toggle_cheats;
+namespace PlantsVsZombiesHacks;
 
 public class SunsCheat
 {

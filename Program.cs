@@ -5,6 +5,9 @@ using ClickableTransparentOverlay;
 // ReSharper disable ArrangeTypeMemberModifiers
 // ReSharper disable SuggestVarOrType_SimpleTypes
 // ReSharper disable SuggestVarOrType_BuiltInTypes
+// ReSharper disable ArrangeThisQualifier
+// ReSharper disable RedundantDefaultMemberInitializer
+// ReSharper disable ArrangeObjectCreationWhenTypeEvident
 
 namespace PlantsVsZombiesHacks
 {
@@ -13,12 +16,13 @@ namespace PlantsVsZombiesHacks
         public static void Main(string[] args)
         {
             Console.WriteLine("Starting up");
+
             Program program = new Program();
             program.Start().Wait();
         }
 
-        CheatClass cheats = new CheatClass();
-        int sunsCountValue;
+        readonly CheatClass cheats = new CheatClass();
+        int sunsCountValue = 500;
 
         bool freePlantsEnabled = false;
         bool instantRechargeEnabled = false;
@@ -42,9 +46,14 @@ namespace PlantsVsZombiesHacks
             ImGui.InputInt("Suns Count", ref sunsCountValue, 50, 100);
             if (ImGui.Button("Set"))
             {
-                this.cheats.suns.SetSuns(sunsCountValue);
+                this.cheats.Suns.SetSuns(sunsCountValue);
             }
-            
+
+            if (ImGui.Button("temp"))
+            {
+                cheats.PlantsCheat.Run();
+            }
+
             ImGui.End();
         }
 
