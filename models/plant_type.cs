@@ -50,4 +50,6 @@ public enum PlantType
     GoldMagnet = 45,
     Spikerock = 46,
     CobCannon = 47,
+
+    REVERSE_REPEATER = 52
 }

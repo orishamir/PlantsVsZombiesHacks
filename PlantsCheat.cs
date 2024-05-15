@@ -27,7 +27,7 @@ public class PlantsCheat
     [DllImport("User32.dll")]
     public static extern bool GetAsyncKeyState(int ArrowKeys);
 
-    IntPtr entitiesStructLoc = (IntPtr)0x2108C97C;
+    IntPtr entitiesStructLoc = (IntPtr)0x1D79E054;
     private readonly Swed swed;
     private IntPtr moduleBase;
 
@@ -74,7 +74,7 @@ public class PlantsCheat
 
                     while (GetAsyncKeyState(0x26)) // VK_UP
                     {
-                        SetPlantHealth(plant, plant.Health + 800);
+                        SetPlantHealth(plant, plant.Health + 200);
                         Thread.Sleep(TimeSpan.FromMilliseconds(100));
                     }
                 }
