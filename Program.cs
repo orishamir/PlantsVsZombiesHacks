@@ -51,7 +51,7 @@ public class Program : Overlay
             this.cheatsClass.Suns.SetSuns(sunsCountValue);
 
         if (ImGui.Button("temp"))
-            cheatsClass.PlantsCheat.Run();
+            cheatsClass.EntitiesCheat.PlantsCheat.Run();
 
         ImGui.End();
     }

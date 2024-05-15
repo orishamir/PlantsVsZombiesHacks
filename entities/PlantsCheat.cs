@@ -6,7 +6,7 @@ using Swed64;
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeThisQualifier
 
-namespace PlantsVsZombiesHacks;
+namespace PlantsVsZombiesHacks.entities;
 
 public enum PlantOffset
 {
@@ -27,14 +27,13 @@ public class PlantsCheat
     [DllImport("User32.dll")]
     public static extern bool GetAsyncKeyState(int ArrowKeys);
 
-    IntPtr entitiesStructLoc = (IntPtr)0x1D79E054;
     private readonly Swed swed;
-    private IntPtr moduleBase;
+    private IntPtr plantsStructLoc;
 
-    public PlantsCheat(Swed swed, IntPtr moduleBase)
+    public PlantsCheat(Swed swed, IntPtr plantsStructLoc)
     {
         this.swed = swed;
-        this.moduleBase = moduleBase;
+        this.plantsStructLoc = plantsStructLoc;
     }
 
     private Thread reloadPlantsThread;
@@ -42,14 +41,7 @@ public class PlantsCheat
 
     public void Run()
     {
-        entitiesStructLoc =
-            HelperFuncs.FindDmaddy(moduleBase, new[]
-                {
-                    0x0032EC1C, 0x6c, 0x2c, 0x48c, 0x0, 0x3dc,
-                },
-                swed
-            ) + 0xc4;
-        Console.WriteLine("Entities Location: {0:x}", entitiesStructLoc);
+        Console.WriteLine("plants Location: {0:x}", plantsStructLoc);
         reloadPlantsThread = new Thread(this.ReloadPlantsList);
         listenHealthThread = new Thread(this.ListenHealth);
 
@@ -97,11 +89,11 @@ public class PlantsCheat
 
     public void ReloadPlantsList()
     {
-        IntPtr arr = HelperFuncs.FindDmaddy(entitiesStructLoc, new[] { 0x0 }, swed);
+        IntPtr arr = HelperFuncs.FindDmaddy(plantsStructLoc, new[] { 0x0 }, swed);
 
         while (true)
         {
-            UInt32 plantsCount = swed.ReadUInt(entitiesStructLoc, 0x10);
+            UInt32 plantsCount = swed.ReadUInt(plantsStructLoc, 0x10);
             Console.WriteLine("Plants Count: {0}", plantsCount);
 
             lock (activePlantsAccess)

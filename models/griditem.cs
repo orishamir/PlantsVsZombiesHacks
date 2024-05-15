@@ -8,21 +8,21 @@ public struct Griditem // size: 236 bytes
     public UInt32 Row; // +0x14
     public GriditemType GriditemType; // +0x8
     public Byte IsDeleted; // +0x20
-    public UInt32 IsSeethrough; // +0x4c
+    public UInt32 IsSeeThrough; // +0x4c
 
     public Griditem(
         UInt32 column,
         UInt32 row,
         GriditemType griditemType,
         Byte isDeleted,
-        UInt32 isSeethrough
+        UInt32 isSeeThrough
     )
     {
         this.Column = column;
         this.Row = row;
         this.GriditemType = griditemType;
         this.IsDeleted = isDeleted;
-        this.IsSeethrough = isSeethrough;
+        this.IsSeeThrough = isSeeThrough;
     }
 
     public override string ToString()
