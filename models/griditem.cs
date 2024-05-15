@@ -33,7 +33,7 @@ public struct Griditem // size: 236 bytes
 
 public enum GriditemType
 {
-    GRAVE = 1,
-    DOOM_SHROOM_CRATER = 2,
-    VASE = 7,
+    Grave = 1,
+    DoomShroomCrater = 2,
+    Vase = 7,
 }
