@@ -1,4 +1,6 @@
-﻿namespace PlantsVsZombiesHacks.models;
+﻿// ReSharper disable ArrangeThisQualifier
+
+namespace PlantsVsZombiesHacks.models;
 
 public struct Griditem // size: 236 bytes
 {

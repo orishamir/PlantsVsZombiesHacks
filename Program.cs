@@ -28,46 +28,47 @@ public class Program : Overlay
     bool freePlantsEnabled = false;
     bool instantRechargeEnabled = false;
     bool instantChopperRechargeEnabled = false;
-    bool plantGodmodeEnabled = false;
+    bool plantInfiniteHealthEnabled = false;
 
     protected override void Render()
     {
         ImGui.Begin("PlantsVsZombies hacks");
-        ImGui.SetWindowSize(new Vector2(520, 280));
-
+        ImGui.SetWindowSize(new Vector2(520, 380));
         ImGui.SetWindowFontScale((float)1.8);
-        if (ImGui.Checkbox("Free plants!", ref freePlantsEnabled))
-        {
-            freePlantsChanged();
-        }
 
-        if (ImGui.Checkbox("Instant Recharge!", ref instantRechargeEnabled))
+        if (ImGui.TreeNode("Toggleables"))
         {
-            instantRechargeChanged();
-        }
+            ImGui.Indent();
 
-        if (ImGui.Checkbox("Instant Chopper Recharge!", ref instantChopperRechargeEnabled))
-        {
-            instantChopperRechargeChanged();
-        }
+            RenderToggleables();
 
-        if (ImGui.Checkbox("Plant Godmode!", ref plantGodmodeEnabled))
-        {
-            plantGodmodeChanged();
+            ImGui.Unindent();
+            ImGui.TreePop();
         }
 
         ImGui.InputInt("Suns Count", ref sunsCountValue, 50, 100);
         if (ImGui.Button("Set"))
-        {
             this.cheatsClass.Suns.SetSuns(sunsCountValue);
-        }
 
         if (ImGui.Button("temp"))
-        {
             cheatsClass.PlantsCheat.Run();
-        }
 
         ImGui.End();
+    }
+
+    public void RenderToggleables()
+    {
+        if (ImGui.Checkbox("Free plants!", ref freePlantsEnabled))
+            freePlantsChanged();
+
+        if (ImGui.Checkbox("Instant Recharge!", ref instantRechargeEnabled))
+            instantRechargeChanged();
+
+        if (ImGui.Checkbox("Instant Chopper Recharge!", ref instantChopperRechargeEnabled))
+            instantChopperRechargeChanged();
+
+        if (ImGui.Checkbox("Plant Infinite Health!", ref plantInfiniteHealthEnabled))
+            plantGodmodeChanged();
     }
 
     private void freePlantsChanged()
@@ -96,7 +97,7 @@ public class Program : Overlay
 
     private void plantGodmodeChanged()
     {
-        if (plantGodmodeEnabled)
+        if (plantInfiniteHealthEnabled)
             this.cheatsClass.PlantGodmodeToggleCheat.Activate();
         else
             this.cheatsClass.PlantGodmodeToggleCheat.Deactivate();
