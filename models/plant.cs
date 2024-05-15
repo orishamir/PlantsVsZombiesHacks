@@ -14,10 +14,13 @@ public struct Plant // size: 332 bytes
     public UInt32 Row; // +0x1c
     public PlantType PlantType; // +0x24
     public UInt32 Column; // +0x28
+    public UInt32 PlantState; // +0x3C
     public UInt32 Health; // +0x40
     public UInt32 MaxHealth; // +0x44
     public Byte IsDeleted; // +0x141
     public Byte IsConsideredShoveling; // +0x145
+
+    public IntPtr BaseAddress;
 
     public Plant(
         UInt32 displayPosY,
@@ -28,7 +31,9 @@ public struct Plant // size: 332 bytes
         UInt32 health,
         UInt32 maxHealth,
         Byte isDeleted,
-        Byte isConsideredShoveling
+        Byte isConsideredShoveling,
+        IntPtr baseAddress,
+        UInt32 plantState
     )
     {
         this.DisplayPosY = displayPosY;
@@ -40,6 +45,8 @@ public struct Plant // size: 332 bytes
         this.MaxHealth = maxHealth;
         this.IsDeleted = isDeleted;
         this.IsConsideredShoveling = isConsideredShoveling;
+        this.BaseAddress = baseAddress;
+        this.PlantState = plantState;
     }
 
     public override string ToString()

@@ -1,18 +1,16 @@
 ﻿using Swed64;
 
-// ReSharper disable MemberCanBePrivate.Global
-// ReSharper disable InconsistentNaming
-
 namespace PlantsVsZombiesHacks.toggle_cheats;
 
-public class FreePlantsToggleCheat: IToggleCheat
+public class PlantGodmodeToggleCheat : IToggleCheat
 {
-    private const int InstructionOffset = 0x1F634;
+    private const int InstructionOffset = 0x1447a0; // "popcapgame1.exe" + 0x1447a0
+
 
     private readonly Swed swed;
     private IntPtr moduleBase;
 
-    public FreePlantsToggleCheat(Swed swed, IntPtr moduleBase)
+    public PlantGodmodeToggleCheat(Swed swed, IntPtr moduleBase)
     {
         this.swed = swed;
         this.moduleBase = moduleBase;
@@ -22,7 +20,7 @@ public class FreePlantsToggleCheat: IToggleCheat
     {
         swed.WriteBytes(moduleBase, InstructionOffset, new byte[]
         {
-            0x90, 0x90
+            0x90, 0x90, 0x90, 0x90,
         });
     }
 
@@ -30,7 +28,7 @@ public class FreePlantsToggleCheat: IToggleCheat
     {
         swed.WriteBytes(moduleBase, InstructionOffset, new byte[]
         {
-            0x29, 0xde // sub esi, ebx
+            0x83, 0x46, 0x40, 0xFC, // add dword ptr [esi + 0x40], -04
         });
     }
 }

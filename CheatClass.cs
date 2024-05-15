@@ -15,21 +15,21 @@ public class CheatClass
     public readonly SunsCheat Suns;
     public readonly FreePlantsToggleCheat FreePlantsToggleCheat;
     public readonly InstantRechargeToggleCheat InstantRechargeToggleCheat;
+    public readonly InstantChopperRechargeToggleCheat InstantChopperRechargeToggleCheat;
+    public readonly PlantGodmodeToggleCheat PlantGodmodeToggleCheat;
     public readonly PlantsCheat PlantsCheat;
 
     public CheatClass()
     {
-        InitMemory();
+        // Init memory
+        moduleBase = swed.GetModuleBase(".exe");
 
         // Init cheats
         this.Suns = new SunsCheat(swed, moduleBase);
         this.FreePlantsToggleCheat = new FreePlantsToggleCheat(swed, moduleBase);
         this.InstantRechargeToggleCheat = new InstantRechargeToggleCheat(swed, moduleBase);
+        this.InstantChopperRechargeToggleCheat = new InstantChopperRechargeToggleCheat(swed, moduleBase);
         this.PlantsCheat = new PlantsCheat(swed, moduleBase);
-    }
-
-    private void InitMemory()
-    {
-        moduleBase = swed.GetModuleBase(".exe");
+        this.PlantGodmodeToggleCheat = new PlantGodmodeToggleCheat(swed, moduleBase);
     }
 }
