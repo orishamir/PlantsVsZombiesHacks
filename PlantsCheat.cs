@@ -42,8 +42,14 @@ public class PlantsCheat
 
     public void Run()
     {
-        // swed.WriteBytes(this.moduleBase, 0x69649, new[] { 0x89, 0x47, });
-        // return;
+        entitiesStructLoc =
+            HelperFuncs.FindDmaddy(moduleBase, new[]
+                {
+                    0x0032EC1C, 0x6c, 0x2c, 0x48c, 0x0, 0x3dc,
+                },
+                swed
+            ) + 0xc4;
+        Console.WriteLine("Entities Location: {0:x}", entitiesStructLoc);
         reloadPlantsThread = new Thread(this.ReloadPlantsList);
         listenHealthThread = new Thread(this.ListenHealth);
 
@@ -58,7 +64,7 @@ public class PlantsCheat
         this.listenHealthThread.Abort();
     }
 
-    private Plant[] activePlants = {};
+    private Plant[] activePlants = { };
     private Mutex activePlantsAccess;
 
     public void ListenHealth()
