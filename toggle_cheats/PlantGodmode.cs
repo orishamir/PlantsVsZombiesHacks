@@ -1,4 +1,4 @@
-﻿using Swed64;
+﻿using Swed32;
 
 namespace PlantsVsZombiesHacks.toggle_cheats;
 

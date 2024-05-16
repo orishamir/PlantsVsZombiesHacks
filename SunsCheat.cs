@@ -1,4 +1,4 @@
-﻿using Swed64;
+﻿using Swed32;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InconsistentNaming
@@ -27,6 +27,6 @@ public class SunsCheat
 
     private IntPtr findSunsCountPtr()
     {
-        return HelperFuncs.FindDmaddy(moduleBase, new[] { 0x331c50, 0x48c, 0x0, 0x3dc }, swed);
+        return swed.ReadPointer(moduleBase, new[] { 0x331c50, 0x48c, 0x0, 0x3dc });;
     }
 }

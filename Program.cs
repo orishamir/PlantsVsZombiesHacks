@@ -41,17 +41,17 @@ public class Program : Overlay
             ImGui.Indent();
 
             RenderToggleables();
-
             ImGui.Unindent();
             ImGui.TreePop();
         }
+        ImGui.Separator();
 
         ImGui.InputInt("Suns Count", ref sunsCountValue, 50, 100);
         if (ImGui.Button("Set"))
             this.cheatsClass.Suns.SetSuns(sunsCountValue);
 
         if (ImGui.Button("temp"))
-            cheatsClass.EntitiesCheat.PlantsCheat.Run();
+            cheatsClass.EntitiesCheat.ProjectileCheat.Run();
 
         ImGui.End();
     }

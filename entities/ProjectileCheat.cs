@@ -1,5 +1,5 @@
 ﻿using PlantsVsZombiesHacks.models;
-using Swed64;
+using Swed32;
 
 namespace PlantsVsZombiesHacks.entities;
 
@@ -11,13 +11,13 @@ public enum ProjectileOffset
 
 public class ProjectileCheat
 {
-    private IntPtr projectileStructLoc;
+    private IntPtr projectileStructPtr;
     private readonly Swed swed;
 
-    public ProjectileCheat(Swed swed, IntPtr projectileStructLoc)
+    public ProjectileCheat(Swed swed, IntPtr projectileStructPtr)
     {
         this.swed = swed;
-        this.projectileStructLoc = projectileStructLoc;
+        this.projectileStructPtr = projectileStructPtr;
     }
 
     public void Run()
@@ -29,12 +29,11 @@ public class ProjectileCheat
 
     public void test()
     {
-        Console.WriteLine("nig {0:x}", projectileStructLoc);
-        IntPtr arr = HelperFuncs.FindDmaddy(projectileStructLoc, new[] { 0x0 }, swed);
+        IntPtr arr = swed.ReadPointer(projectileStructPtr);
 
         while (true)
         {
-            UInt32 projectilesTotal = swed.ReadUInt(projectileStructLoc, 0x10);
+            UInt32 projectilesTotal = swed.ReadUInt(projectileStructPtr, 0x10);
             Console.WriteLine("Projectiles Total: {0}", projectilesTotal);
 
             IntPtr ptr = arr;

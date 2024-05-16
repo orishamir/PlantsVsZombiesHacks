@@ -1,6 +1,6 @@
 ﻿using PlantsVsZombiesHacks.entities;
 using PlantsVsZombiesHacks.toggle_cheats;
-using Swed64;
+using Swed32;
 
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers

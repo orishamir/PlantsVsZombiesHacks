@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 using PlantsVsZombiesHacks.models;
-using Swed64;
+using Swed32;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InconsistentNaming
@@ -28,12 +28,12 @@ public class PlantsCheat
     public static extern bool GetAsyncKeyState(int ArrowKeys);
 
     private readonly Swed swed;
-    private IntPtr plantsStructLoc;
+    private IntPtr plantsStructPtr;
 
-    public PlantsCheat(Swed swed, IntPtr plantsStructLoc)
+    public PlantsCheat(Swed swed, IntPtr plantsStructPtr)
     {
         this.swed = swed;
-        this.plantsStructLoc = plantsStructLoc;
+        this.plantsStructPtr = plantsStructPtr;
     }
 
     private Thread reloadPlantsThread;
@@ -41,7 +41,7 @@ public class PlantsCheat
 
     public void Run()
     {
-        Console.WriteLine("plants Location: {0:x}", plantsStructLoc);
+        Console.WriteLine("plants Location: {0:x}", plantsStructPtr);
         reloadPlantsThread = new Thread(this.ReloadPlantsList);
         listenHealthThread = new Thread(this.ListenHealth);
 
@@ -56,7 +56,7 @@ public class PlantsCheat
         this.listenHealthThread.Abort();
     }
 
-    private Plant[] activePlants = { };
+    private Plant[] activePlants = Array.Empty<Plant>();
     private Mutex activePlantsAccess;
 
     public void ListenHealth()
@@ -89,11 +89,11 @@ public class PlantsCheat
 
     public void ReloadPlantsList()
     {
-        IntPtr arr = HelperFuncs.FindDmaddy(plantsStructLoc, new[] { 0x0 }, swed);
+        IntPtr arr = swed.ReadPointer(plantsStructPtr);
 
         while (true)
         {
-            UInt32 plantsCount = swed.ReadUInt(plantsStructLoc, 0x10);
+            UInt32 plantsCount = swed.ReadUInt(plantsStructPtr, 0x10);
             Console.WriteLine("Plants Count: {0}", plantsCount);
 
             lock (activePlantsAccess)

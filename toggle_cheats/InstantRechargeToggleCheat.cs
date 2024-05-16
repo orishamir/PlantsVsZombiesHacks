@@ -1,4 +1,4 @@
-﻿using Swed64;
+﻿using Swed32;
 
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InconsistentNaming
