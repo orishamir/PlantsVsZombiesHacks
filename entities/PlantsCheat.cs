@@ -10,8 +10,8 @@ namespace PlantsVsZombiesHacks.entities;
 
 public enum PlantOffset
 {
-    DisplayPosY = 0x8,
-    DisplayPosX = 0xC,
+    DisplayPosX = 0x8,
+    DisplayPosY = 0xC,
     Row = 0x1C,
     PlantType = 0x24,
     Column = 0x28,
@@ -28,7 +28,7 @@ public class PlantsCheat
     public static extern bool GetAsyncKeyState(int ArrowKeys);
 
     private readonly Swed swed;
-    private IntPtr plantsStructPtr;
+    private readonly IntPtr plantsStructPtr;
 
     public PlantsCheat(Swed swed, IntPtr plantsStructPtr)
     {
@@ -36,51 +36,7 @@ public class PlantsCheat
         this.plantsStructPtr = plantsStructPtr;
     }
 
-    private Thread reloadPlantsThread;
-    private Thread listenHealthThread;
-
-    public void Run()
-    {
-        Console.WriteLine("plants Location: {0:x}", plantsStructPtr);
-        reloadPlantsThread = new Thread(this.ReloadPlantsList);
-        listenHealthThread = new Thread(this.ListenHealth);
-
-        reloadPlantsThread.Start();
-        listenHealthThread.Start();
-        activePlantsAccess = new Mutex(false);
-    }
-
-    public void Stop()
-    {
-        this.reloadPlantsThread.Abort();
-        this.listenHealthThread.Abort();
-    }
-
-    private Plant[] activePlants = Array.Empty<Plant>();
-    private Mutex activePlantsAccess;
-
-    public void ListenHealth()
-    {
-        while (true)
-        {
-            lock (activePlantsAccess)
-            {
-                foreach (var plant in activePlants)
-                {
-                    if (plant.IsConsideredShoveling == 0)
-                        continue;
-
-                    while (GetAsyncKeyState(0x26)) // VK_UP
-                    {
-                        SetPlantHealth(plant, plant.Health + 200);
-                        Thread.Sleep(TimeSpan.FromMilliseconds(100));
-                    }
-                }
-            }
-
-            Thread.Sleep(TimeSpan.FromMilliseconds(1));
-        }
-    }
+    public List<Plant> ActivePlants = new List<Plant>();
 
     public void SetPlantHealth(Plant plant, UInt32 newHealth)
     {
@@ -89,44 +45,24 @@ public class PlantsCheat
 
     public void ReloadPlantsList()
     {
-        IntPtr arr = swed.ReadPointer(plantsStructPtr);
+        ActivePlants.Clear();
+        UInt32 plantsCount = swed.ReadUInt(plantsStructPtr, 0x10);
 
-        while (true)
-        {
-            UInt32 plantsCount = swed.ReadUInt(plantsStructPtr, 0x10);
-            Console.WriteLine("Plants Count: {0}", plantsCount);
-
-            lock (activePlantsAccess)
-            {
-                SetPlantsList(arr, plantsCount);
-            }
-
-            foreach (var plant in activePlants)
-            {
-                Console.WriteLine(plant);
-            }
-
-            Thread.Sleep(TimeSpan.FromMilliseconds(10));
-        }
-    }
-
-    public void SetPlantsList(IntPtr startingPtr, UInt32 plantsCount)
-    {
-        activePlants = new Plant[plantsCount];
+        IntPtr ptr = swed.ReadPointer(plantsStructPtr);
 
         int plantsEncountered = 0;
         while (plantsEncountered != plantsCount)
         {
-            Plant plant = parsePlant(startingPtr);
+            Plant plant = parsePlant(ptr);
             if (plant.IsDeleted == 1)
             {
-                startingPtr += 332;
+                ptr += Plant.Size;
                 continue;
             }
 
-            activePlants[plantsEncountered] = plant;
+            ActivePlants.Add(plant);
 
-            startingPtr += 332;
+            ptr += Plant.Size;
             plantsEncountered++;
         }
     }

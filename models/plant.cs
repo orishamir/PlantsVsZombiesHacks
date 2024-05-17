@@ -2,6 +2,10 @@
 // ReSharper disable ArrangeThisQualifier
 // ReSharper disable NotAccessedField.Global
 
+// ReSharper disable FieldCanBeMadeReadOnly.Global
+
+using System.Numerics;
+
 #pragma warning disable CS0414 // Field is assigned but its value is never used
 #pragma warning disable CS0169 // Field is never used
 
@@ -9,8 +13,11 @@ namespace PlantsVsZombiesHacks.models;
 
 public struct Plant // size: 332 bytes
 {
-    public UInt32 DisplayPosY; // +0x8
-    public UInt32 DisplayPosX; // +0xC
+    public static int Size = 332;
+
+    public Vector2 DisplayPos;
+    private UInt32 displayPosX; // +0x8
+    private UInt32 displayPosY; // +0xC
     public UInt32 Row; // +0x1c
     public PlantType PlantType; // +0x24
     public UInt32 Column; // +0x28
@@ -36,8 +43,8 @@ public struct Plant // size: 332 bytes
         UInt32 plantState
     )
     {
-        this.DisplayPosY = displayPosY;
-        this.DisplayPosX = displayPosX;
+        this.displayPosY = displayPosY;
+        this.displayPosX = displayPosX;
         this.Row = row;
         this.PlantType = plantType;
         this.Column = column;
@@ -47,6 +54,7 @@ public struct Plant // size: 332 bytes
         this.IsConsideredShoveling = isConsideredShoveling;
         this.BaseAddress = baseAddress;
         this.PlantState = plantState;
+        this.DisplayPos = new Vector2(this.displayPosX, this.displayPosY);
     }
 
     public override string ToString()

@@ -3,6 +3,8 @@ namespace PlantsVsZombiesHacks.models;
 
 public struct LawnMower // size: 72 bytes
 {
+    public static int Size = 72;
+
     public LawnmowerType LawnmowerType; // +0x34
     public float DisplayPosY; // +0xC
     public float DisplayPosX; // +0x8

@@ -38,4 +38,5 @@ public enum GriditemType
     Grave = 1,
     DoomShroomCrater = 2,
     Vase = 7,
+    Snail = 10,
 }
