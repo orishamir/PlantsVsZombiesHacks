@@ -6,32 +6,14 @@
 // ReSharper disable RedundantDefaultMemberInitializer
 // ReSharper disable ArrangeObjectCreationWhenTypeEvident
 
-using System.Diagnostics;
-using System.Numerics;
-using System.Runtime.InteropServices;
 using ImGuiNET;
 using ClickableTransparentOverlay;
-using PlantsVsZombiesHacks.models;
+using PlantsVsZombiesHacks.overlay_cheats;
 
 namespace PlantsVsZombiesHacks;
 
 public class Program : Overlay
 {
-    private readonly Vector4 Red = new Vector4(1, 0, 0, 1); // red
-    private readonly Vector4 Green = new Vector4(0, 1, 0, 1); // red
-    private readonly Vector4 White = new Vector4(1, 1, 1, 1); // white
-
-    [DllImport("user32.dll")]
-    public static extern bool GetWindowRect(IntPtr hwnd, ref Rect rectangle);
-
-    public struct Rect
-    {
-        public int Left { get; set; }
-        public int Top { get; set; }
-        public int Right { get; set; }
-        public int Bottom { get; set; }
-    }
-
     public static void Main(string[] args)
     {
         Console.WriteLine("Starting up");
@@ -42,9 +24,6 @@ public class Program : Overlay
 
     readonly CheatClass cheatsClass = new CheatClass();
 
-    readonly Vector2 LawnOffset = new Vector2(10, 70);
-    readonly Vector2 PlantHeight = new Vector2(0, 80);
-
     int sunsCountValue = 500;
 
     bool freePlantsEnabled = false;
@@ -53,12 +32,18 @@ public class Program : Overlay
     bool plantInfiniteHealthEnabled = false;
     bool plantsEspEnabled = false;
 
+    private readonly PlantsEspOverlay plantsEspOverlay;
+
+    public Program()
+    {
+        plantsEspOverlay = new PlantsEspOverlay(cheatsClass);
+    }
+
     protected override void Render()
     {
-        ImGui.Begin("PlantsVsZombies hacks",
-            ImGuiWindowFlags.AlwaysAutoResize
-        );
-        ImGui.SetWindowFontScale((float)1.8);
+        ReplaceFont(@"C:\Windows\Fonts\calibri.ttf", 30, FontGlyphRangeType.English);
+
+        ImGui.Begin("PlantsVsZombies hacks", ImGuiWindowFlags.AlwaysAutoResize);
 
         if (ImGui.TreeNode("Toggleables"))
         {
@@ -77,77 +62,10 @@ public class Program : Overlay
 
         ImGui.Checkbox("Plants ESP", ref plantsEspEnabled);
         if (plantsEspEnabled)
-            RenderPlantsEspOverlay();
+            plantsEspOverlay.RenderPlantsEspOverlay();
 
         ImGui.Text("");
         ImGui.End();
-    }
-
-    public void RenderPlantsEspOverlay()
-    {
-        Rect pvzRect = GetPvzWindow();
-        float windowWidth = pvzRect.Right - pvzRect.Left;
-        float windowHeight = pvzRect.Bottom - pvzRect.Top;
-
-        ImGui.SetNextWindowPos(new Vector2(pvzRect.Left, pvzRect.Top));
-        ImGui.SetNextWindowSize(new Vector2(windowWidth, windowHeight));
-
-        // Start ImGui window
-        ImGui.Begin("ESP overlay",
-            ImGuiWindowFlags.NoDecoration
-            | ImGuiWindowFlags.NoBackground
-            | ImGuiWindowFlags.NoBringToFrontOnFocus
-            | ImGuiWindowFlags.NoMove
-            | ImGuiWindowFlags.NoInputs
-            | ImGuiWindowFlags.NoCollapse
-            | ImGuiWindowFlags.NoScrollbar
-            | ImGuiWindowFlags.NoScrollWithMouse
-        );
-        ImDrawListPtr drawList = ImGui.GetWindowDrawList();
-
-        // drawList.AddRect(
-        //     ImGui.GetWindowPos() + new Vector2(4, 1),
-        //     ImGui.GetWindowPos() + ImGui.GetWindowSize() - new Vector2(4, 1),
-        //     ImGui.ColorConvertFloat4ToU32(Red)
-        // );
-
-        cheatsClass.EntitiesCheat.PlantsCheat.ReloadPlantsList();
-        foreach (Plant plant in cheatsClass.EntitiesCheat.PlantsCheat.ActivePlants)
-        {
-            Vector2 GreenHeight = PlantHeight * plant.Health / plant.MaxHealth;
-
-            Vector2 plantStartPos = ImGui.GetWindowPos()
-                + LawnOffset
-                + plant.DisplayPos - PlantHeight / 2;
-
-            Vector2 RedHeight = PlantHeight - GreenHeight;
-
-            drawList.AddLine(
-                plantStartPos,
-                plantStartPos + RedHeight,
-                ImGui.ColorConvertFloat4ToU32(Red),
-                3.0f
-            );
-
-            drawList.AddLine(
-                plantStartPos + RedHeight,
-                plantStartPos + RedHeight + GreenHeight,
-                ImGui.ColorConvertFloat4ToU32(Green),
-                3.0f
-            );
-        }
-
-        ImGui.End();
-    }
-
-    public Rect GetPvzWindow()
-    {
-        Process[] processes = Process.GetProcessesByName("popcapgame1");
-        IntPtr ptr = processes[0].MainWindowHandle;
-        Rect pvzRect = new Rect();
-        GetWindowRect(ptr, ref pvzRect);
-
-        return pvzRect;
     }
 
     public void RenderToggleables()
