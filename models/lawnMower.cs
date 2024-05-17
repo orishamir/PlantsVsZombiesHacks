@@ -1,22 +1,21 @@
 ﻿// ReSharper disable ArrangeThisQualifier
+// ReSharper disable UnusedMember.Global
+
 namespace PlantsVsZombiesHacks.models;
 
-public struct LawnMower // size: 72 bytes
+public struct LawnMower( // size: 72 bytes
+    LawnmowerType lawnmowerType,
+    float displayPosY,
+    float displayPosX,
+    Byte isDeleted
+)
 {
-    public static int Size = 72;
+    public const int Size = 72;
 
-    public LawnmowerType LawnmowerType; // +0x34
-    public float DisplayPosY; // +0xC
-    public float DisplayPosX; // +0x8
-    public Byte IsDeleted; // +0x30
-
-    public LawnMower(LawnmowerType lawnmowerType, float displayPosY, float displayPosX, Byte isDeleted)
-    {
-        this.LawnmowerType = lawnmowerType;
-        this.DisplayPosY = displayPosY;
-        this.DisplayPosX = displayPosX;
-        this.IsDeleted = isDeleted;
-    }
+    public LawnmowerType LawnmowerType = lawnmowerType; // +0x34
+    public float DisplayPosY = displayPosY; // +0xC
+    public float DisplayPosX = displayPosX; // +0x8
+    public Byte IsDeleted = isDeleted; // +0x30
 }
 
 public enum LawnmowerType

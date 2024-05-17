@@ -22,20 +22,8 @@ public enum PlantOffset
     IsConsideredShoveling = 0x145,
 }
 
-public class PlantsCheat
+public class PlantsCheat(Swed swed, IntPtr plantsStructPtr)
 {
-    [DllImport("User32.dll")]
-    public static extern bool GetAsyncKeyState(int ArrowKeys);
-
-    private readonly Swed swed;
-    private readonly IntPtr plantsStructPtr;
-
-    public PlantsCheat(Swed swed, IntPtr plantsStructPtr)
-    {
-        this.swed = swed;
-        this.plantsStructPtr = plantsStructPtr;
-    }
-
     public List<Plant> ActivePlants = new List<Plant>();
 
     public void SetPlantHealth(Plant plant, UInt32 newHealth)
@@ -46,9 +34,10 @@ public class PlantsCheat
     public void ReloadPlantsList()
     {
         ActivePlants.Clear();
-        UInt32 plantsCount = swed.ReadUInt(plantsStructPtr, 0x10);
 
         IntPtr ptr = swed.ReadPointer(plantsStructPtr);
+
+        UInt32 plantsCount = swed.ReadUInt(plantsStructPtr, 0x10);
 
         int plantsEncountered = 0;
         while (plantsEncountered != plantsCount)

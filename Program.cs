@@ -1,28 +1,25 @@
-﻿using System.Diagnostics;
-using System.Numerics;
-using System.Runtime.InteropServices;
-using ImGuiNET;
-using ClickableTransparentOverlay;
-using PlantsVsZombiesHacks.models;
-using PlantsVsZombiesHacks.toggle_cheats;
-
-// ReSharper disable InconsistentNaming
+﻿// ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeTypeMemberModifiers
 // ReSharper disable SuggestVarOrType_SimpleTypes
 // ReSharper disable SuggestVarOrType_BuiltInTypes
 // ReSharper disable ArrangeThisQualifier
 // ReSharper disable RedundantDefaultMemberInitializer
 // ReSharper disable ArrangeObjectCreationWhenTypeEvident
+
+using System.Diagnostics;
+using System.Numerics;
+using System.Runtime.InteropServices;
+using ImGuiNET;
+using ClickableTransparentOverlay;
+using PlantsVsZombiesHacks.models;
+
 namespace PlantsVsZombiesHacks;
 
 public class Program : Overlay
 {
-    private Vector4 Red = new(1, 0, 0, 1); // red
-    private Vector4 Green = new(0, 1, 0, 1); // red
-    private Vector4 White = new(1, 1, 1, 1); // white
-
-    [DllImport("user32.dll", CharSet = CharSet.Auto)]
-    public static extern IntPtr FindWindow(string strClassName, string strWindowName);
+    private readonly Vector4 Red = new Vector4(1, 0, 0, 1); // red
+    private readonly Vector4 Green = new Vector4(0, 1, 0, 1); // red
+    private readonly Vector4 White = new Vector4(1, 1, 1, 1); // white
 
     [DllImport("user32.dll")]
     public static extern bool GetWindowRect(IntPtr hwnd, ref Rect rectangle);
@@ -45,8 +42,8 @@ public class Program : Overlay
 
     readonly CheatClass cheatsClass = new CheatClass();
 
-    readonly Vector2 LawnOffset;
-    readonly Vector2 PlantHeight;
+    readonly Vector2 LawnOffset = new Vector2(10, 70);
+    readonly Vector2 PlantHeight = new Vector2(0, 80);
 
     int sunsCountValue = 500;
 
@@ -56,17 +53,11 @@ public class Program : Overlay
     bool plantInfiniteHealthEnabled = false;
     bool plantsEspEnabled = false;
 
-    public Program()
-    {
-        LawnOffset = new Vector2(10, 70);
-        PlantHeight = new Vector2(0, 80);
-    }
-
     protected override void Render()
     {
         ImGui.Begin("PlantsVsZombies hacks",
             ImGuiWindowFlags.AlwaysAutoResize
-            );
+        );
         ImGui.SetWindowFontScale((float)1.8);
 
         if (ImGui.TreeNode("Toggleables"))
@@ -112,17 +103,15 @@ public class Program : Overlay
             | ImGuiWindowFlags.NoScrollbar
             | ImGuiWindowFlags.NoScrollWithMouse
         );
-
         ImDrawListPtr drawList = ImGui.GetWindowDrawList();
 
         // drawList.AddRect(
-        // ImGui.GetWindowPos() + new Vector2(4, 1),
-        // ImGui.GetWindowPos() + ImGui.GetWindowSize() - new Vector2(4, 1),
-        // ImGui.ColorConvertFloat4ToU32(Red)
+        //     ImGui.GetWindowPos() + new Vector2(4, 1),
+        //     ImGui.GetWindowPos() + ImGui.GetWindowSize() - new Vector2(4, 1),
+        //     ImGui.ColorConvertFloat4ToU32(Red)
         // );
 
         cheatsClass.EntitiesCheat.PlantsCheat.ReloadPlantsList();
-
         foreach (Plant plant in cheatsClass.EntitiesCheat.PlantsCheat.ActivePlants)
         {
             Vector2 GreenHeight = PlantHeight * plant.Health / plant.MaxHealth;

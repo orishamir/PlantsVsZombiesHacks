@@ -9,21 +9,11 @@ public enum ProjectileOffset
     ProjectileType = 0x5C,
 }
 
-public class ProjectileCheat
+public class ProjectileCheat(Swed swed, IntPtr projectileStructPtr)
 {
-    private IntPtr projectileStructPtr;
-    private readonly Swed swed;
-
-    public ProjectileCheat(Swed swed, IntPtr projectileStructPtr)
-    {
-        this.swed = swed;
-        this.projectileStructPtr = projectileStructPtr;
-    }
-
     public void Run()
     {
         Thread thread = new Thread(this.test);
-
         thread.Start();
     }
 

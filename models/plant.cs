@@ -1,7 +1,6 @@
 ﻿// ReSharper disable BuiltInTypeReferenceStyle
 // ReSharper disable ArrangeThisQualifier
 // ReSharper disable NotAccessedField.Global
-
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 
 using System.Numerics;
@@ -13,7 +12,7 @@ namespace PlantsVsZombiesHacks.models;
 
 public struct Plant // size: 332 bytes
 {
-    public static int Size = 332;
+    public const int Size = 332;
 
     public Vector2 DisplayPos;
     private UInt32 displayPosX; // +0x8

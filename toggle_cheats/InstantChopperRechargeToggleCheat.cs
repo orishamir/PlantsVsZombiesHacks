@@ -11,7 +11,7 @@ public enum ChomperState
     FinishedEating = 14, // Im not sure the difference between this and 1.
 }
 
-public class InstantChopperRechargeToggleCheat : IToggleCheat
+public class InstantChopperRechargeToggleCheat(Swed swed, IntPtr moduleBase) : IToggleCheat
 {
     /*
      This cheat works like this:
@@ -27,39 +27,25 @@ public class InstantChopperRechargeToggleCheat : IToggleCheat
     private const int InstructionOffset1 = 0x678E7; // "popcapgame1.exe" + 0x678E7
     private const int InstructionOffset2 = 0x6789E; // "popcapgame1.exe" + 0x6789E
 
-
-    private readonly Swed swed;
-    private IntPtr moduleBase;
-
-    public InstantChopperRechargeToggleCheat(Swed swed, IntPtr moduleBase)
-    {
-        this.swed = swed;
-        this.moduleBase = moduleBase;
-    }
-
     public void Activate()
     {
-        swed.WriteBytes(moduleBase, InstructionOffset1, new byte[]
-        {
-            0xC7, 0x47, 0x3C, (byte)ChomperState.FinishedEating, 0x00, 0x00, 0x00, // mov [edi + 3C], 0xE
-        });
+        swed.WriteBytes(moduleBase, InstructionOffset1, [
+            0xC7, 0x47, 0x3C, (byte)ChomperState.FinishedEating, 0x00, 0x00, 0x00 // mov [edi + 3C], 0xE
+        ]);
 
-        swed.WriteBytes(moduleBase, InstructionOffset2, new byte[]
-        {
-            0xC7, 0x47, 0x3C, (byte)ChomperState.FinishedEating, 0x00, 0x00, 0x00, // mov [edi + 3C], 0xE
-        });
+        swed.WriteBytes(moduleBase, InstructionOffset2, [
+            0xC7, 0x47, 0x3C, (byte)ChomperState.FinishedEating, 0x00, 0x00, 0x00 // mov [edi + 3C], 0xE
+        ]);
     }
 
     public void Deactivate()
     {
-        swed.WriteBytes(moduleBase, InstructionOffset1, new byte[]
-        {
-            0xC7, 0x47, 0x3C, (byte)ChomperState.Digesting, 0x00, 0x00, 0x00, // mov [edi + 3C], 0xD
-        });
+        swed.WriteBytes(moduleBase, InstructionOffset1, [
+            0xC7, 0x47, 0x3C, (byte)ChomperState.Digesting, 0x00, 0x00, 0x00 // mov [edi + 3C], 0xD
+        ]);
 
-        swed.WriteBytes(moduleBase, InstructionOffset2, new byte[]
-        {
-            0xC7, 0x47, 0x3C, (byte)ChomperState.KilledZombie, 0x00, 0x00, 0x00, // mov [edi + 3C], 0xB
-        });
+        swed.WriteBytes(moduleBase, InstructionOffset2, [
+            0xC7, 0x47, 0x3C, (byte)ChomperState.KilledZombie, 0x00, 0x00, 0x00 // mov [edi + 3C], 0xB
+        ]);
     }
 }

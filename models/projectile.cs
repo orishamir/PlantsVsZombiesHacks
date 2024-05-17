@@ -2,21 +2,18 @@
 
 namespace PlantsVsZombiesHacks.models;
 
-public struct Projectile // size 216 bytes
+public struct Projectile( // size 216 bytes
+    UInt32 isDeleted,
+    ProjectileType projectileType,
+    IntPtr baseAddress
+)
 {
     public static int Size = 148;
 
-    public IntPtr BaseAddress;
+    public IntPtr BaseAddress = baseAddress;
 
-    public UInt32 IsDeleted; // +0x50
-    public ProjectileType ProjectileType; // +0x5C
-
-    public Projectile(UInt32 isDeleted, ProjectileType projectileType, IntPtr baseAddress)
-    {
-        this.IsDeleted = isDeleted;
-        this.ProjectileType = projectileType;
-        this.BaseAddress = baseAddress;
-    }
+    public UInt32 IsDeleted = isDeleted; // +0x50
+    public ProjectileType ProjectileType = projectileType; // +0x5C
 }
 
 public enum ProjectileType

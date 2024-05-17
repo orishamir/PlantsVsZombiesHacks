@@ -1,4 +1,6 @@
-﻿namespace PlantsVsZombiesHacks.models;
+﻿// ReSharper disable UnusedMember.Global
+
+namespace PlantsVsZombiesHacks.models;
 
 public enum PlantType
 {

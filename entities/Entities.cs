@@ -15,10 +15,9 @@ public class EntitiesCheat
 
     public EntitiesCheat(Swed swed, IntPtr moduleBase)
     {
-        entitiesStructPtr = swed.ReadPointer(moduleBase, new[]
-            {
-                0x0032EC1C, 0x6c, 0x2c, 0x48c, 0x0, 0x3dc,
-            }
+        entitiesStructPtr = swed.ReadPointer(moduleBase, [
+                0x0032EC1C, 0x6c, 0x2c, 0x48c, 0x0, 0x3dc
+            ]
         ) + 0xc4;
 
         this.ProjectileCheat = new ProjectileCheat(swed, entitiesStructPtr + (int)EntityOffset.Projectiles);

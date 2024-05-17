@@ -1,36 +1,25 @@
-﻿using Swed32;
-
-// ReSharper disable MemberCanBePrivate.Global
+﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InconsistentNaming
+
+using Swed32;
 
 namespace PlantsVsZombiesHacks.toggle_cheats;
 
-public class FreePlantsToggleCheat: IToggleCheat
+public class FreePlantsToggleCheat(Swed swed, IntPtr moduleBase) : IToggleCheat
 {
     private const int InstructionOffset = 0x1F634;
 
-    private readonly Swed swed;
-    private IntPtr moduleBase;
-
-    public FreePlantsToggleCheat(Swed swed, IntPtr moduleBase)
-    {
-        this.swed = swed;
-        this.moduleBase = moduleBase;
-    }
-
     public void Activate()
     {
-        swed.WriteBytes(moduleBase, InstructionOffset, new byte[]
-        {
+        swed.WriteBytes(moduleBase, InstructionOffset, [
             0x90, 0x90
-        });
+        ]);
     }
 
     public void Deactivate()
     {
-        swed.WriteBytes(moduleBase, InstructionOffset, new byte[]
-        {
+        swed.WriteBytes(moduleBase, InstructionOffset, [
             0x29, 0xde // sub esi, ebx
-        });
+        ]);
     }
 }
