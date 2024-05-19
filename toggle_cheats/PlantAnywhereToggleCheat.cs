@@ -2,21 +2,22 @@
 
 namespace PlantsVsZombiesHacks.toggle_cheats;
 
-public class InvinciblePlantsToggleCheat(Swed swed, IntPtr moduleBase) : IToggleCheat
+public class PlantAnywhereToggleCheat(Swed swed, IntPtr moduleBase)
 {
-    private const int InstructionOffset = 0x1447a0; // "popcapgame1.exe" + 0x1447a0
+    private const int InstructionOffset = 0x1334D;
 
     public void Activate()
     {
         swed.WriteBytes(moduleBase, InstructionOffset, [
-            0x90, 0x90, 0x90, 0x90
+            0x31, 0xC0 // xor eax, eax
         ]);
     }
 
     public void Deactivate()
     {
         swed.WriteBytes(moduleBase, InstructionOffset, [
-            0x83, 0x46, 0x40, 0xFC // add dword ptr [esi + 0x40], -04
+            0x85, 0xC0 // test eax, eax
         ]);
     }
+
 }

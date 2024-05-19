@@ -29,7 +29,9 @@ public class Program : Overlay
     bool freePlantsEnabled = false;
     bool instantRechargeEnabled = false;
     bool instantChopperRechargeEnabled = false;
-    bool plantInfiniteHealthEnabled = false;
+    bool invinciblePlantsEnabled = false;
+    bool plantAnywhereEnabled = false;
+    bool allZombiesOutEnabled = false;
     bool plantsEspEnabled = false;
 
     private readonly PlantsEspOverlay plantsEspOverlay;
@@ -79,8 +81,30 @@ public class Program : Overlay
         if (ImGui.Checkbox("Instant Chopper Recharge!", ref instantChopperRechargeEnabled))
             instantChopperRechargeChanged();
 
-        if (ImGui.Checkbox("Plant Infinite Health!", ref plantInfiniteHealthEnabled))
-            plantGodmodeChanged();
+        if (ImGui.Checkbox("Invincible Plants!", ref invinciblePlantsEnabled))
+            invinciblePlantsChanged();
+
+        if (ImGui.Checkbox("Plant Anywhere!", ref plantAnywhereEnabled))
+            plantAnywhereChanged();
+
+        if (ImGui.Checkbox("All Zombies Out!", ref allZombiesOutEnabled))
+            allZombiesOutChanged();
+    }
+
+    private void plantAnywhereChanged()
+    {
+        if (plantAnywhereEnabled)
+            this.cheatsClass.PlantAnywhereToggleCheat.Activate();
+        else
+            this.cheatsClass.PlantAnywhereToggleCheat.Deactivate();
+    }
+
+    private void allZombiesOutChanged()
+    {
+        if (allZombiesOutEnabled)
+            this.cheatsClass.AllZombiesOutToggleCheat.Activate();
+        else
+            this.cheatsClass.AllZombiesOutToggleCheat.Deactivate();
     }
 
     private void freePlantsChanged()
@@ -107,11 +131,11 @@ public class Program : Overlay
             this.cheatsClass.InstantChopperRechargeToggleCheat.Deactivate();
     }
 
-    private void plantGodmodeChanged()
+    private void invinciblePlantsChanged()
     {
-        if (plantInfiniteHealthEnabled)
-            this.cheatsClass.PlantGodmodeToggleCheat.Activate();
+        if (invinciblePlantsEnabled)
+            this.cheatsClass.InvinciblePlantsToggleCheat.Activate();
         else
-            this.cheatsClass.PlantGodmodeToggleCheat.Deactivate();
+            this.cheatsClass.InvinciblePlantsToggleCheat.Deactivate();
     }
 }

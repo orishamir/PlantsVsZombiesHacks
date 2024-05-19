@@ -7,7 +7,7 @@ public enum ChomperState
     WaitingForPrey = 1, // Pretty much "idle"
     Targeting = 10,
     KilledZombie = 11, // Not so sure about this
-    Digesting = 13,  // The one that takes most time
+    Digesting = 13, // The one that takes most time
     FinishedEating = 14, // Im not sure the difference between this and 1.
 }
 
@@ -26,6 +26,7 @@ public class InstantChopperRechargeToggleCheat(Swed swed, IntPtr moduleBase) : I
      */
     private const int InstructionOffset1 = 0x678E7; // "popcapgame1.exe" + 0x678E7
     private const int InstructionOffset2 = 0x6789E; // "popcapgame1.exe" + 0x6789E
+    private const int CooldownInstructionOffset = 0x69648; // "popcapgame1.exe" + 0x6789E
 
     public void Activate()
     {
@@ -36,6 +37,20 @@ public class InstantChopperRechargeToggleCheat(Swed swed, IntPtr moduleBase) : I
         swed.WriteBytes(moduleBase, InstructionOffset2, [
             0xC7, 0x47, 0x3C, (byte)ChomperState.FinishedEating, 0x00, 0x00, 0x00 // mov [edi + 3C], 0xE
         ]);
+
+        // Momenterally restore all currently-digesting Choppers
+        // to their normal state by setting the timer to 0.
+        new Thread(() =>
+        {
+            swed.WriteBytes(moduleBase, CooldownInstructionOffset, [
+                0x83, 0x67, 0x54, 0x00 // and dword ptr [edi + 54], 0x0
+            ]);
+            Thread.Sleep(2000);
+            swed.WriteBytes(moduleBase, CooldownInstructionOffset, [
+                0x48, //dec eax
+                0x89, 0x47, 0x54 // mov [edi + 54], eax
+            ]);
+        }).Start();
     }
 
     public void Deactivate()
