@@ -33,12 +33,15 @@ public class Program : Overlay
     bool plantAnywhereEnabled = false;
     bool allZombiesOutEnabled = false;
     bool plantsEspEnabled = false;
+    bool projectilesEspEnabled = false;
 
     private readonly PlantsEspOverlay plantsEspOverlay;
+    private readonly ProjectilesEspOverlay projectilesEspOverlay;
 
     public Program()
     {
         plantsEspOverlay = new PlantsEspOverlay(cheatsClass);
+        projectilesEspOverlay = new ProjectilesEspOverlay(cheatsClass);
     }
 
     protected override void Render()
@@ -65,6 +68,10 @@ public class Program : Overlay
         ImGui.Checkbox("Plants ESP", ref plantsEspEnabled);
         if (plantsEspEnabled)
             plantsEspOverlay.RenderPlantsEspOverlay();
+
+        ImGui.Checkbox("Projectiles ESP", ref projectilesEspEnabled);
+        if (projectilesEspEnabled)
+            projectilesEspOverlay.RenderProjectilesEspOverlay();
 
         ImGui.Text("");
         ImGui.End();

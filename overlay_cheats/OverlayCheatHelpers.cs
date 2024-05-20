@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
+using System.Numerics;
 using System.Runtime.InteropServices;
+using ImGuiNET;
 
 namespace PlantsVsZombiesHacks.overlay_cheats;
 
@@ -25,4 +27,11 @@ public struct Rect
     public int Top { get; set; }
     public int Right { get; set; }
     public int Bottom { get; set; }
+}
+
+public static class Color
+{
+    public static readonly uint Red = ImGui.ColorConvertFloat4ToU32(new Vector4(1, 0, 0, 1));
+    public static readonly uint Green = ImGui.ColorConvertFloat4ToU32(new Vector4(0, 1, 0, 1));
+    public static readonly uint White = ImGui.ColorConvertFloat4ToU32(new Vector4(1, 1, 1, 1));
 }

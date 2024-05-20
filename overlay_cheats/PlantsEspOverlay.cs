@@ -8,10 +8,6 @@ public class PlantsEspOverlay(CheatClass cheatsClass)
 {
     CheatClass cheatsClass = cheatsClass;
 
-    private readonly Vector4 Red = new Vector4(1, 0, 0, 1); // red
-    private readonly Vector4 Green = new Vector4(0, 1, 0, 1); // red
-    private readonly Vector4 White = new Vector4(1, 1, 1, 1); // white
-
     readonly Vector2 LawnOffset = new Vector2(10, 70);
     readonly Vector2 PlantHeight = new Vector2(0, 80);
 
@@ -42,7 +38,6 @@ public class PlantsEspOverlay(CheatClass cheatsClass)
         //     ImGui.GetWindowPos() + ImGui.GetWindowSize() - new Vector2(4, 1),
         //     ImGui.ColorConvertFloat4ToU32(Red)
         // );
-
         cheatsClass.EntitiesCheat.PlantsCheat.ReloadPlantsList();
         foreach (Plant plant in cheatsClass.EntitiesCheat.PlantsCheat.ActivePlants)
         {
@@ -57,14 +52,14 @@ public class PlantsEspOverlay(CheatClass cheatsClass)
             drawList.AddLine(
                 plantStartPos,
                 plantStartPos + RedHeight,
-                ImGui.ColorConvertFloat4ToU32(Red),
+                Color.Red,
                 3.0f
             );
 
             drawList.AddLine(
                 plantStartPos + RedHeight,
                 plantStartPos + RedHeight + GreenHeight,
-                ImGui.ColorConvertFloat4ToU32(Green),
+                Color.Green,
                 3.0f
             );
         }

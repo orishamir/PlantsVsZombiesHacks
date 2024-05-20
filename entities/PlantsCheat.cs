@@ -1,9 +1,9 @@
-﻿using PlantsVsZombiesHacks.models;
-using Swed32;
-
-// ReSharper disable MemberCanBePrivate.Global
+﻿// ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable InconsistentNaming
 // ReSharper disable ArrangeThisQualifier
+
+using PlantsVsZombiesHacks.models;
+using Swed32;
 
 namespace PlantsVsZombiesHacks.entities;
 
@@ -23,7 +23,15 @@ public enum PlantOffset
 
 public class PlantsCheat(Swed swed, IntPtr plantsStructPtr)
 {
-    public List<Plant> ActivePlants = new List<Plant>();
+    public Swed swed = swed;
+    public IntPtr plantsStructPtr = plantsStructPtr;
+
+    public void UpdateStructPtr(IntPtr newStructPtr)
+    {
+        this.plantsStructPtr = newStructPtr;
+    }
+
+    public List<Plant> ActivePlants = [];
 
     public void SetPlantHealth(Plant plant, UInt32 newHealth)
     {

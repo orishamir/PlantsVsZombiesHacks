@@ -1,67 +1,67 @@
-﻿using PlantsVsZombiesHacks.models;
+﻿// ReSharper disable MemberCanBePrivate.Global
+// ReSharper disable InconsistentNaming
+// ReSharper disable ArrangeThisQualifier
+
+using PlantsVsZombiesHacks.models;
 using Swed32;
 
 namespace PlantsVsZombiesHacks.entities;
 
-public enum ProjectileOffset
-{
-    IsDeleted = 0x50,
-    ProjectileType = 0x5C,
-}
-
 public class ProjectileCheat(Swed swed, IntPtr projectileStructPtr)
 {
-    public void Run()
+    public Swed swed = swed;
+    public IntPtr projectileStructPtr = projectileStructPtr;
+
+    public List<Projectile> ActiveProjectiles = [];
+
+    public void UpdateStructPtr(IntPtr newStructPtr)
     {
-        Thread thread = new Thread(this.test);
-        thread.Start();
+        this.projectileStructPtr = newStructPtr;
     }
 
-    public void test()
+    public void ReloadProjectilesList()
     {
-        IntPtr arr = swed.ReadPointer(projectileStructPtr);
+        ActiveProjectiles.Clear();
 
-        while (true)
+        IntPtr ptr = swed.ReadPointer(projectileStructPtr);
+
+        UInt32 projectilesCount = swed.ReadUInt(projectileStructPtr, 0x10);
+
+        int projectilesEncountered = 0;
+        while (projectilesEncountered != projectilesCount)
         {
-            UInt32 projectilesTotal = swed.ReadUInt(projectileStructPtr, 0x10);
-            Console.WriteLine("Projectiles Total: {0}", projectilesTotal);
-
-            IntPtr ptr = arr;
-
-            int projectilesCount = 0;
-            while (projectilesCount != projectilesTotal)
+            Projectile projectile = parseProjectile(ptr);
+            if (projectile.IsDeleted == 1)
             {
-                Projectile projectile = ParseProjectile(ptr);
-                if (projectile.IsDeleted == 1)
-                {
-                    ptr += Projectile.Size;
-                    continue;
-                }
-
-                Console.WriteLine("Projectile: type={0}", projectile.ProjectileType);
-                if (projectile.ProjectileType != ProjectileType.GiantCorn && (UInt32)projectile.ProjectileType != 6)
-                {
-                    swed.WriteUInt(projectile.BaseAddress, (int)ProjectileOffset.ProjectileType, (UInt32)ProjectileType.GiantCorn);
-                }
-
                 ptr += Projectile.Size;
-                projectilesCount++;
+                continue;
             }
 
-            Thread.Sleep(100);
+            ActiveProjectiles.Add(projectile);
+
+            ptr += Projectile.Size;
+            projectilesEncountered++;
         }
     }
 
-    public Projectile ParseProjectile(IntPtr baseProjectileAddr)
+    public Projectile parseProjectile(IntPtr baseProjectileAddr)
     {
         UInt32 isDeleted = swed.ReadUInt(baseProjectileAddr, (int)ProjectileOffset.IsDeleted);
         ProjectileType projectileType =
             (ProjectileType)swed.ReadUInt(baseProjectileAddr, (int)ProjectileOffset.ProjectileType);
+        UInt32 displayPosX = swed.ReadUInt(baseProjectileAddr, (int)ProjectileOffset.DisplayPosX);
+        UInt32 displayPosY = swed.ReadUInt(baseProjectileAddr, (int)ProjectileOffset.DisplayPosY);
+        float posX = swed.ReadFloat(baseProjectileAddr, (int)ProjectileOffset.PosX);
+        float posY = swed.ReadFloat(baseProjectileAddr, (int)ProjectileOffset.PosY);
 
         return new Projectile(
             isDeleted: isDeleted,
             projectileType: projectileType,
-            baseAddress: baseProjectileAddr
+            baseAddress: baseProjectileAddr,
+            displayPosX: displayPosX,
+            displayPosY: displayPosY,
+            posX: posX,
+            posY: posY
         );
     }
 }

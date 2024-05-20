@@ -11,50 +11,34 @@ using System.Numerics;
 namespace PlantsVsZombiesHacks.models;
 
 public struct Plant // size: 332 bytes
+(
+    IntPtr baseAddress,
+    UInt32 displayPosY,
+    UInt32 displayPosX,
+    UInt32 row,
+    PlantType plantType,
+    UInt32 column,
+    UInt32 health,
+    UInt32 maxHealth,
+    Byte isDeleted,
+    Byte isConsideredShoveling,
+    UInt32 plantState)
 {
     public const int Size = 332;
+    public IntPtr BaseAddress = baseAddress;
 
-    public Vector2 DisplayPos;
-    private UInt32 displayPosX; // +0x8
-    private UInt32 displayPosY; // +0xC
-    public UInt32 Row; // +0x1c
-    public PlantType PlantType; // +0x24
-    public UInt32 Column; // +0x28
-    public UInt32 PlantState; // +0x3C
-    public UInt32 Health; // +0x40
-    public UInt32 MaxHealth; // +0x44
-    public Byte IsDeleted; // +0x141
-    public Byte IsConsideredShoveling; // +0x145
+    private UInt32 displayPosX = displayPosX; // +0x8
+    private UInt32 displayPosY = displayPosY; // +0xC
+    public UInt32 Row = row; // +0x1c
+    public PlantType PlantType = plantType; // +0x24
+    public UInt32 Column = column; // +0x28
+    public UInt32 PlantState = plantState; // +0x3C
+    public UInt32 Health = health; // +0x40
+    public UInt32 MaxHealth = maxHealth; // +0x44
+    public Byte IsDeleted = isDeleted; // +0x141
+    public Byte IsConsideredShoveling = isConsideredShoveling; // +0x145
 
-    public IntPtr BaseAddress;
-
-    public Plant(
-        UInt32 displayPosY,
-        UInt32 displayPosX,
-        UInt32 row,
-        PlantType plantType,
-        UInt32 column,
-        UInt32 health,
-        UInt32 maxHealth,
-        Byte isDeleted,
-        Byte isConsideredShoveling,
-        IntPtr baseAddress,
-        UInt32 plantState
-    )
-    {
-        this.displayPosY = displayPosY;
-        this.displayPosX = displayPosX;
-        this.Row = row;
-        this.PlantType = plantType;
-        this.Column = column;
-        this.Health = health;
-        this.MaxHealth = maxHealth;
-        this.IsDeleted = isDeleted;
-        this.IsConsideredShoveling = isConsideredShoveling;
-        this.BaseAddress = baseAddress;
-        this.PlantState = plantState;
-        this.DisplayPos = new Vector2(this.displayPosX, this.displayPosY);
-    }
+    public Vector2 DisplayPos = new Vector2(displayPosX, displayPosY);
 
     public override string ToString()
     {
